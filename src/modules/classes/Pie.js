@@ -56,7 +56,6 @@ export class Pie extends Colors {
     this.canvas.ctx.strokeStyle = color;
     this.canvas.ctx.beginPath();
     this.canvas.ctx.moveTo(this.centerX, this.centerY);
-    console.log("start2", this.startAngle);
     this.canvas.ctx.arc(
       this.centerX,
       this.centerY,

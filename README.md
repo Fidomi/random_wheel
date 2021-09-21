@@ -6,6 +6,8 @@
 
 #### General Info
 
+WORK STILL IL PROGRESS...
+
 - Create a wheel with several segments (max 20)
 - Give them a name
 - Launch the wheel so it will spin and give you the first name of the draw
