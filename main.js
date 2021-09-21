@@ -149,7 +149,6 @@ function arrayOfChoices() {
   let choices = Array.from(document.querySelectorAll(`[name*="choice"]`)).map(
     (element) => {
       let colorElement = element.getAttribute("style").toString().trim();
-      console.log("colorElement>>>", colorElement);
       let arr = re.exec(colorElement);
       return [arr[0], element];
     }
@@ -158,7 +157,6 @@ function arrayOfChoices() {
 }
 
 function findPickedResult(color, choices) {
-  console.log("color>>", color, "==>>choices", choices);
   return choices.find((ele) => ele[0] === color);
 }
 
