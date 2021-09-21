@@ -49,8 +49,8 @@ export class Colors {
     let colors = [];
     let hues = this.makeRandomHueArray(numberOfColors);
     for (let i = 0; i < numberOfColors; i++) {
-      let saturation = this.getRandomIntInclusive(55, 65);
-      let lightness = this.getRandomIntInclusive(35, 55);
+      let saturation = this.getRandomIntInclusive(45, 80);
+      let lightness = this.getRandomIntInclusive(35, 70);
       let newColor = `hsla(${hues[i]},${saturation}%,${lightness}%,1)`;
       colors.push(this.HSLToRGBA(newColor));
     }
@@ -60,9 +60,6 @@ export class Colors {
   removeAColor(color) {
     color.trim();
     let index = this.colors.findIndex((ele) => ele === color);
-    console.log("colorToDelete", color);
-    console.log("this.colors", this.colors);
-    console.log("index", index);
     this.colors.splice(index, 1);
   }
 
