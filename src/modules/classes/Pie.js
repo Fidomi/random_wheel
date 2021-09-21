@@ -2,7 +2,7 @@ import { Colors } from "./Colors.js";
 
 export class Pie extends Colors {
   constructor(canvas, numberOfSlices) {
-    super(numberOfSlices);
+    super();
     this.canvas = canvas;
     this.radius =
       this.canvas.width < this.canvas.height
@@ -40,15 +40,20 @@ export class Pie extends Colors {
 
   //METHODS
   static drawPointerGuide(canvas) {
+    let drawPointery = 45;
     canvas.ctx.fillStyle = "#000000";
     canvas.ctx.beginPath();
-    canvas.ctx.moveTo(canvas.width / 2 - 10, 0);
-    canvas.ctx.lineTo(canvas.width / 2 + 10, 0);
-    canvas.ctx.lineTo(canvas.width / 2 + 10, 20);
-    canvas.ctx.lineTo(canvas.width / 2, 38);
-    canvas.ctx.lineTo(canvas.width / 2 - 10, 20);
+    canvas.ctx.moveTo(canvas.width / 2 - 20, 0);
+    canvas.ctx.lineTo(canvas.width / 2 + 20, 0);
+    canvas.ctx.lineTo(canvas.width / 2, drawPointery);
     canvas.ctx.closePath();
     canvas.ctx.fill();
+    return [canvas.width / 2, drawPointery];
+  }
+
+  static getColorIndicesForCoord(drawPointerx, drawPointery, width) {
+    let red = drawPointery * (width * 4) + drawPointerx * 4;
+    return [red, red + 1, red + 2, red + 3];
   }
 
   drawPieSlice(color) {
@@ -79,6 +84,7 @@ export class Pie extends Colors {
       this.startAngle += this.sliceAngle;
       this.endAngle += this.sliceAngle;
     }
+    Pie.drawPointerGuide(this.canvas);
   }
 
   eatSliceOfPie(colorOfSlice) {

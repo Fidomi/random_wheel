@@ -1,6 +1,15 @@
 export class Colors {
   constructor(numberOfColors) {
-    this.colors = this.generateHSlColors(numberOfColors);
+    this.colors = [this.getRGBAColor()];
+  }
+
+  getRGBAColor() {
+    let code = "rgba(";
+    for (let count = 0; count < 3; count++) {
+      code = code + this.getRandomIntInclusive(0, 255) + ", ";
+    }
+    code += "1)";
+    return code === "rgba(0, 0, 0, 1)" ? getColorCode() : code;
   }
 
   getRandomIntInclusive(min, max) {
@@ -42,7 +51,7 @@ export class Colors {
     for (let i = 0; i < numberOfColors; i++) {
       let saturation = this.getRandomIntInclusive(55, 65);
       let lightness = this.getRandomIntInclusive(35, 55);
-      colors.push(`hsla(${hues[i]},${saturation}%,${lightness}%,100%`);
+      colors.push(`hsla(${hues[i]},${saturation}%,${lightness}%,100%)`);
     }
     return colors;
   }
@@ -53,7 +62,19 @@ export class Colors {
   }
 
   addAColor() {
-    let newColor = this.getColorCode();
-    this.colors.push(newColor);
+    let newColor = this.getRGBAColor();
+    let newColorArr = newColor
+      .split(/(\D)/)
+      .filter((ele) => !isNaN(parseInt(ele)));
+    let lastColorArr = this.colors[this.colors.length - 1]
+      .split(/(\D)/)
+      .filter((ele) => !isNaN(parseInt(ele)));
+    let colorDeltaOK = true;
+    for (let i = 0; i < 3; i++) {
+      if (Math.abs(parseInt(newColorArr[i]) - parseInt(lastColorArr[i])) < 12) {
+        colorDeltaOK = false;
+      }
+    }
+    colorDeltaOK ? this.colors.push(newColor) : this.addAColor();
   }
 }

@@ -42,7 +42,6 @@ function play() {
         thePie.colors[thePie.colors.length - 1]
       );
       minusSigns.push(document.querySelector(`#minus${thePie.numberOfSlices}`));
-      Pie.drawPointerGuide(PIECANVAS);
     }
     //3- ERASING SLICES AND CORRESPONDING CHOICE
     else if (testRegex(event.target, "id", "minus")) {
@@ -52,7 +51,6 @@ function play() {
       let numberChoiceDeleted = event.target.getAttribute("id").split("").pop();
       deleteChoice(numberChoiceDeleted);
       thePie.eatSliceOfPie(colorToDelete);
-      Pie.drawPointerGuide(PIECANVAS);
     }
     //4- VALIDATE CHOICES NAMES AND LAUNCH ANIMATION
     else if (event.target === STARTDRAW) {
@@ -70,7 +68,6 @@ function play() {
         STARTDRAW.hidden = true;
         CANCELDRAW.hidden = false;
         requestAnim = requestAnimationFrame(turnThePie);
-        Pie.drawPointerGuide(PIECANVAS);
       } else {
         showErrors(inputNames);
       }
@@ -98,11 +95,29 @@ function turnThePie() {
       thePie.startAngle += thePie.sliceAngle;
       thePie.endAngle += thePie.sliceAngle;
     }
+    Pie.drawPointerGuide(thePie.canvas);
     thePie.startAngle += rotation;
     thePie.endAngle += rotation;
     rotation *= speed;
     requestAnim = requestAnimationFrame(turnThePie);
   } else {
     cancelAnimationFrame(requestAnim);
+    console.log(thePie.colors);
+    console.log(getColorResult());
   }
+}
+
+function getColorResult() {
+  let pixelCoord = Pie.drawPointerGuide(thePie.canvas);
+  let pixel = thePie.canvas.ctx.getImageData(
+    pixelCoord[0],
+    pixelCoord[1] + 10,
+    1,
+    1
+  );
+  let pixelData = pixel.data;
+  const rgba = `rgba(${pixelData[0]}, ${pixelData[1]}, ${pixelData[2]}, ${
+    pixelData[3] / 255
+  })`;
+  return rgba;
 }
