@@ -6,7 +6,7 @@
 
 #### General Info
 
-WORK STILL IL PROGRESS...
+WORK STILL IN PROGRESS...
 
 - Create a wheel with several segments (max 20)
 - Give them a name
