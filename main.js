@@ -13,7 +13,7 @@ let requestAnim, start, end, speed, rotation;
 
 //Create Canvas and Pie
 const PIECANVAS = createCanvas("wheelContainer", "wheelCanvas", 500, 550);
-const thePie = new Pie(PIECANVAS, 1);
+const thePie = new Pie(PIECANVAS, 20, 1);
 
 //Init
 const init = () => {
@@ -47,7 +47,7 @@ function play() {
     else if (testRegex(event.target, "id", "minus")) {
       let colorToDelete = event.target.previousSibling.previousSibling
         .getAttribute("style")
-        .slice(-7);
+        .slice(-21);
       let numberChoiceDeleted = event.target.getAttribute("id").split("").pop();
       deleteChoice(numberChoiceDeleted);
       thePie.eatSliceOfPie(colorToDelete);

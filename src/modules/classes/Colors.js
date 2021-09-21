@@ -1,15 +1,15 @@
 export class Colors {
-  constructor(numberOfColors) {
-    this.colors = [this.getRGBAColor()];
+  constructor(maxNumber, numberOfSlices) {
+    this.colorSet = this.generateRGBAColors(maxNumber);
+    this.setColors(numberOfSlices);
   }
 
-  getRGBAColor() {
-    let code = "rgba(";
-    for (let count = 0; count < 3; count++) {
-      code = code + this.getRandomIntInclusive(0, 255) + ", ";
+  setColors(numberOfSlices) {
+    this.colors = [];
+    for (let i = 0; i < numberOfSlices; i++) {
+      this.colors.push(this.colorSet[i]);
     }
-    code += "1)";
-    return code === "rgba(0, 0, 0, 1)" ? getColorCode() : code;
+    return this.colors;
   }
 
   getRandomIntInclusive(min, max) {
@@ -36,45 +36,91 @@ export class Colors {
     return this.shuffleArray(colors);
   }
 
-  getColorCode() {
-    let makeColorCode = "0123456789ABCDEF";
-    let code = "#";
-    for (let count = 0; count < 6; count++) {
-      code = code + makeColorCode[Math.floor(Math.random() * 16)];
-    }
-    return code === "#FF0000" ? getColorCode() : code;
-  }
+  // getColorCode() {
+  //   let makeColorCode = "0123456789ABCDEF";
+  //   let code = "#";
+  //   for (let count = 0; count < 6; count++) {
+  //     code = code + makeColorCode[Math.floor(Math.random() * 16)];
+  //   }
+  //   return code === "#FF0000" ? getColorCode() : code;
+  // }
 
-  generateHSlColors(numberOfColors) {
+  generateRGBAColors(numberOfColors) {
     let colors = [];
     let hues = this.makeRandomHueArray(numberOfColors);
     for (let i = 0; i < numberOfColors; i++) {
       let saturation = this.getRandomIntInclusive(55, 65);
       let lightness = this.getRandomIntInclusive(35, 55);
-      colors.push(`hsla(${hues[i]},${saturation}%,${lightness}%,100%)`);
+      let newColor = `hsla(${hues[i]},${saturation}%,${lightness}%,1)`;
+      colors.push(this.HSLToRGBA(newColor));
     }
     return colors;
   }
 
   removeAColor(color) {
+    color.trim();
     let index = this.colors.findIndex((ele) => ele === color);
+    console.log("colorToDelete", color);
+    console.log("this.colors", this.colors);
+    console.log("index", index);
     this.colors.splice(index, 1);
   }
 
   addAColor() {
-    let newColor = this.getRGBAColor();
-    let newColorArr = newColor
-      .split(/(\D)/)
-      .filter((ele) => !isNaN(parseInt(ele)));
-    let lastColorArr = this.colors[this.colors.length - 1]
-      .split(/(\D)/)
-      .filter((ele) => !isNaN(parseInt(ele)));
-    let colorDeltaOK = true;
-    for (let i = 0; i < 3; i++) {
-      if (Math.abs(parseInt(newColorArr[i]) - parseInt(lastColorArr[i])) < 12) {
-        colorDeltaOK = false;
+    let newColor = "";
+    for (let i = 0; i < this.colorSet.length; i++) {
+      if (!this.colors.includes(this.colorSet[i])) {
+        newColor = this.colorSet[i];
+        break;
       }
     }
-    colorDeltaOK ? this.colors.push(newColor) : this.addAColor();
+    this.colors.push(newColor);
+  }
+
+  HSLToRGBA(hslColor) {
+    let hsl = hslColor.split(/(\D)/).filter((ele) => !isNaN(parseInt(ele)));
+    let h = parseInt(hsl[0]);
+    let s = parseInt(hsl[1]);
+    let l = parseInt(hsl[2]);
+    // Must be fractions of 1
+    s /= 100;
+    l /= 100;
+
+    let c = (1 - Math.abs(2 * l - 1)) * s,
+      x = c * (1 - Math.abs(((h / 60) % 2) - 1)),
+      m = l - c / 2,
+      r = 0,
+      g = 0,
+      b = 0;
+    if (0 <= h && h < 60) {
+      r = c;
+      g = x;
+      b = 0;
+    } else if (60 <= h && h < 120) {
+      r = x;
+      g = c;
+      b = 0;
+    } else if (120 <= h && h < 180) {
+      r = 0;
+      g = c;
+      b = x;
+    } else if (180 <= h && h < 240) {
+      r = 0;
+      g = x;
+      b = c;
+    } else if (240 <= h && h < 300) {
+      r = x;
+      g = 0;
+      b = c;
+    } else if (300 <= h && h < 360) {
+      r = c;
+      g = 0;
+      b = x;
+    }
+    r = Math.round((r + m) * 255);
+    g = Math.round((g + m) * 255);
+    b = Math.round((b + m) * 255);
+
+    return "rgba(" + r + ", " + g + ", " + b + ", 1)";
   }
 }

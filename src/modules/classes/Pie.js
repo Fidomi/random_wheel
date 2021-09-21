@@ -1,8 +1,8 @@
 import { Colors } from "./Colors.js";
 
 export class Pie extends Colors {
-  constructor(canvas, numberOfSlices) {
-    super();
+  constructor(canvas, maxNumber, numberOfSlices) {
+    super(maxNumber, numberOfSlices);
     this.canvas = canvas;
     this.radius =
       this.canvas.width < this.canvas.height
