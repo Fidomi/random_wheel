@@ -1,34 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Roue de Sélection</title>
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="../src/styles/drawStyles.css"
-      media="all"
-    />
-    <script type="module" src="main.js"></script>
-  </head>
-  <body>
-    <header><h1>THE RANDOM WHEEL</h1></header>
-    <main>
-      <form id="noms" action="" method="get">
-        <div id="choice1">
-          <!-- <label>1</label> -->
-          <input type="text" name="choice1" />
-        </div>
-        <button id="plus">&#10010;</button>
-        <button id="start">Start</button>
-        <button id="next" hidden>Next</button>
-        <button id="cancel" hidden>Cancel</button>
-      </form>
-      <div id="results" hidden><h3>Results</h3></div>
-      <div id="wheelContainer"></div>
-    </main>
-    <footer></footer>
-  </body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Random Wheel Spinner</title>
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="../src/styles/mainstyle.css"
+            media="all"
+        />
+        <script type="module" src="main.js"></script>
+    </head>
+    <body>
+        <header><h1>THE RANDOM WHEEL</h1></header>
+        <main>
+            <div id="wheelContainer"></div>
+            <form id="names" action="" method="get">
+                <div id="input-wrapper">
+                    <div id="choice1">
+                        <input type="text" name="choice1" />
+                    </div>
+                </div>
+                <div id="addInputs" class="flexRow">
+                    <p>Add inputs (10 max)</p>
+                    <button id="plus">&#x2b;</button>
+                </div>
+                <div class="listButtons flexRow">
+                    <button id="start" class="blackButton" hidden>START</button>
+                    <button id="next" class="blackButton" hidden>NEXT</button>
+                    <button id="cancel" class="blackButton">RESET</button>
+                </div>
+            </form>
+            <div id="results" hidden>
+                <div id="results_column"></div>
+            </div>
+        </main>
+        <footer></footer>
+    </body>
 </html>

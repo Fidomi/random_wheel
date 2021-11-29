@@ -1,0 +1,196 @@
+@import url("https://fonts.googleapis.com/css2?family=Abel&family=Voltaire&family=Alfa+Slab+One&display=swap");
+html,
+body {
+    font-family: "Abel", sans-serif;
+    box-sizing: border-box;
+    margin: 0 auto;
+    background-color: beige;
+    font-size: 16px;
+}
+
+body {
+    max-width: 1080px;
+    width: 95vw;
+}
+
+a:hover,
+a:visited,
+a:link,
+a:active,
+a {
+    text-decoration: none;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+button,
+button:hover,
+button:focus,
+button:active {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+}
+
+.flexRow {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+#plus {
+    font-size: 1.25rem;
+}
+
+#wheelContainer {
+    width: 100%;
+    text-align: center;
+}
+
+#wheelCanvas {
+    width: 86%;
+    margin: 0 auto;
+}
+
+header {
+    text-align: center;
+}
+
+header > h1 {
+    font-family: "Voltaire";
+    font-size: 1.6rem;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#names {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    /* align-items: center; */
+    width: 90%;
+    margin: 0 auto;
+}
+
+div[id*="choice"] {
+    display: flex;
+    flex-direction: row;
+    flex-flow: wrap;
+    margin-bottom: 0.1rem;
+    width: 100%;
+    /* margin: 0 auto; */
+}
+
+input {
+    background: none;
+    outline: none;
+    font: 1.4rem/1 "Abel", sans-serif;
+    color: #333;
+    width: 90%;
+    box-sizing: border-box;
+    letter-spacing: 1px;
+    border: 0;
+    border-bottom: 1px solid white;
+    padding: 0.5rem 0.75;
+    border-radius: 0.25rem;
+}
+
+span[id*="minus"],
+#plus {
+    font-size: 1.4rem;
+    font-weight: 900;
+    font-family: "Alfa Slab One", cursive;
+    margin: 0.1rem auto;
+}
+
+#addInputs {
+    margin: 0 auto;
+}
+
+#addInputs > p {
+    width: 90%;
+    margin: 0.2rem 0;
+    font: 1.2rem/1.4 "Abel", sans-serif;
+}
+
+.blackButton,
+.blackButton:focus,
+.blackButton:active {
+    background-color: black;
+    color: white;
+    font-size: 1.2rem;
+    text-align: center;
+    border-radius: 2rem;
+    margin: 0 auto;
+    min-width: 6rem;
+    padding: 0.5rem;
+    margin-top: 1rem;
+}
+
+.listButtons {
+    justify-content: center;
+}
+
+#results {
+    display: flex;
+    flex-direction: row;
+    flex-flow: wrap;
+    max-height: 25vh;
+    justify-content: center;
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 1rem;
+    border-top: solid black 2px;
+    padding-top: 1rem;
+}
+
+#results_column {
+    display: flex;
+    flex-direction: column;
+    flex-flow: wrap;
+    max-height: 100%;
+    width: 100%;
+}
+
+.result {
+    display: flex;
+    flex-direction: row;
+    flex-flow: nowrap;
+    flex-basis: 100%;
+    max-width: 100%;
+    min-width: 50%;
+    margin-bottom: 0.2rem;
+}
+.result > h3 {
+    width: 2.2rem;
+    padding: 0.2rem;
+    margin: 0;
+    background-color: black;
+    color: white;
+    border-radius: 0.2rem;
+    text-align: center;
+}
+.result > p {
+    font: 1.3em/1.2em "Voltaire", sans-serif;
+    padding: 0.2rem;
+    margin: 0;
+    flex-grow: 1;
+}
+
+p[message="error"] {
+    width: 100%;
+    margin: 0.2rem auto;
+    color: red;
+}
