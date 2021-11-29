@@ -1,6 +1,6 @@
 export class Colors {
     constructor(maxNumber, numberOfSlices) {
-        this.colorSet = this.generateRGBAColors(maxNumber);
+        this.colorSet = this.generateHSLAColors(maxNumber);
         this.setColors(numberOfSlices);
     }
 
@@ -36,23 +36,13 @@ export class Colors {
         return this.shuffleArray(colors);
     }
 
-    // getColorCode() {
-    //   let makeColorCode = "0123456789ABCDEF";
-    //   let code = "#";
-    //   for (let count = 0; count < 6; count++) {
-    //     code = code + makeColorCode[Math.floor(Math.random() * 16)];
-    //   }
-    //   return code === "#FF0000" ? getColorCode() : code;
-    // }
-
-    generateRGBAColors(numberOfColors) {
+    generateHSLAColors(numberOfColors) {
         let colors = [];
         let hues = this.makeRandomHueArray(numberOfColors);
         for (let i = 0; i < numberOfColors; i++) {
             let saturation = this.getRandomIntInclusive(45, 80);
             let lightness = this.getRandomIntInclusive(35, 70);
             let newColor = `hsla(${hues[i]},${saturation}%,${lightness}%,1)`;
-            // colors.push(this.HSLToRGBA(newColor));
             colors.push(newColor);
         }
         return colors;
@@ -154,7 +144,6 @@ export class Colors {
 
         // Calculate saturation
         s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
-
         // Multiply l and s by 100
         s = Math.round(+(s * 100));
         l = Math.round(+(l * 100));

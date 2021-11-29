@@ -10,11 +10,13 @@ export function adjustFontColor(backGroundColor) {
 
 export function addChoiceInput(wrapperElement, counter, color) {
     const fontColor = adjustFontColor(color);
-    if (fontColor) {
+    if (fontColor && counter <= 10) {
         const newInput = `<div id="choice${counter}">
                 <input type="text" name="choice${counter}" style="background-color: ${color};color:${fontColor}"/>
                 <span id="minus${counter}">&#x2212;</span><div>`;
         wrapperElement.insertAdjacentHTML("beforeend", newInput);
+    } else if (counter > 10) {
+        throw console.error("Max 10 inputs.");
     } else {
         throw console.error("Couldn't find the color light value.");
     }
@@ -26,7 +28,7 @@ function updateCounters(number) {
     let minusChoices = document.querySelectorAll(`span[id*="minus"]`);
     const startIndex = parseInt(number) - 1;
     if (parseInt(number) === idChoices.length + 1) {
-        console.log("Last choice deleted, no change in the rest of the table.");
+        console.log("Pops the last choice");
     } else {
         for (let i = startIndex; i < idChoices.length; i++) {
             idChoices[i].setAttribute("id", `choice${i + 1}`);
@@ -40,7 +42,6 @@ function updateCounters(number) {
 
 export function deleteChoice(number) {
     const CHOICETODELETE = document.getElementById(`choice${number}`);
-    console.log("CHOICETODELETE", CHOICETODELETE);
     CHOICETODELETE.remove();
     updateCounters(number);
 }

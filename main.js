@@ -53,15 +53,27 @@ function play() {
         event.preventDefault();
         //2- ADDING SLICES
         if (event.target === ADDCHOICE) {
-            thePie.addSliceOfPie();
-            addChoiceInput(
-                CHOICES_WRAPPER,
-                thePie.numberOfSlices,
-                thePie.colors[thePie.colors.length - 1]
-            );
-            minusSigns.push(
-                document.querySelector(`#minus${thePie.numberOfSlices}`)
-            );
+            if (thePie.numberOfSlices <= 9) {
+                thePie.addSliceOfPie();
+                addChoiceInput(
+                    CHOICES_WRAPPER,
+                    thePie.numberOfSlices,
+                    thePie.colors[thePie.colors.length - 1]
+                );
+                minusSigns.push(
+                    document.querySelector(`#minus${thePie.numberOfSlices}`)
+                );
+                if (thePie.numberOfSlices === 10) {
+                    ADDCHOICE.setAttribute("hidden", true);
+                    ADDINPUTS.firstElementChild.innerHTML =
+                        "Max inputs reached!";
+                }
+            } else {
+                const endMessage = `<p id="alert">Max 10 inputs!</p>`;
+                document
+                    .querySelector(".listButtons")
+                    .insertAdjacentHTML("afterend", endMessage);
+            }
             if (document.querySelectorAll("div[id *= 'choice']").length > 1) {
                 STARTDRAW.removeAttribute("hidden");
             }
@@ -72,14 +84,15 @@ function play() {
                 event.target.previousSibling.previousSibling
                     .getAttribute("style")
                     .trim();
-            let arr = /rgba\(([^(]+)\)/.exec(colorElementToDelete);
+            let arr = /hsla\(([^(]+)\)/.exec(colorElementToDelete);
             let colorToDelete = arr[0];
-            let numberChoiceDeleted = event.target
-                .getAttribute("id")
-                .split("")
-                .pop();
+            let numberChoiceDeleted = event.target.getAttribute("id").slice(5);
             deleteChoice(numberChoiceDeleted);
             thePie.eatSliceOfPie(colorToDelete);
+            if (thePie.numberOfSlices <= 9) {
+                ADDCHOICE.removeAttribute("hidden");
+                ADDINPUTS.firstElementChild.innerHTML = "Add inputs (10 max)";
+            }
         }
         //4- VALIDATE CHOICES NAMES AND LAUNCH ANIMATION
         else if (event.target === STARTDRAW || event.target === NEXTDRAW) {
@@ -87,6 +100,9 @@ function play() {
             const isFormOk = checkForm(inputNames);
             if (isFormOk) {
                 //LAUNCH ANIMATION
+                if (document.getElementById("alert")) {
+                    document.getElementById("alert").remove();
+                }
                 deactivateChoicesMinus();
                 if (requestAnim) {
                     cancelAnimationFrame(requestAnim);
@@ -130,7 +146,9 @@ function turnThePie() {
         let resultColor = getColorResult();
         let choices = arrayOfChoices();
         result = findPickedResult(resultColor, choices);
-        showPickedName(result);
+        if (result !== undefined) {
+            showPickedName(result);
+        }
         if (choices.length === 2) {
             theEnd = true;
             NEXTDRAW.hidden = true;
@@ -185,21 +203,39 @@ function arrayOfChoices() {
 }
 
 function findPickedResult(color, choices) {
-    return choices.find((ele) => ele[0] === color);
+    const value = choices.find((ele) => ele[0] === color);
+    if (value !== undefined) {
+        return value;
+    }
+    const nearValue = choices.find((ele) => {
+        const result = compareCloseColors(color, ele[0]);
+        return result !== undefined;
+    });
+    if (nearValue !== undefined) {
+        return nearValue;
+    } else {
+        const endMessage = `<p id="alert">Unable to evaluate the winner's color. Try again.</p>`;
+        result = undefined;
+        document
+            .querySelector(".listButtons")
+            .insertAdjacentHTML("afterend", endMessage);
+        throw console.error("Unable to find the winner");
+    }
 }
 
 function showPickedName(result) {
     RESULTS.hidden = false;
-    const RESULT_COLUMN = RESULTS.querySelector("#results_column");
-    let rank = RESULT_COLUMN.querySelectorAll(".result").length;
-    let newResult = `<div class="result"><h3>${rank + 1}</h3><p style="color: ${
+    let rank = RESULTS.querySelectorAll(".result").length;
+    let newResult = `<div class="result"><h3 style="background-color: ${
         result[0]
-    }">${result[1].value}</p></div>`;
-    RESULT_COLUMN.insertAdjacentHTML("beforeend", newResult);
+    }">${rank + 1}</h3><p style="color: ${result[0]}">${
+        result[1].value
+    }</p></div>`;
+    RESULTS.insertAdjacentHTML("beforeend", newResult);
 }
 
 function deletePickedChoice(result) {
-    let number = parseInt(result[1].getAttribute("name").toString().slice(-1));
+    let number = parseInt(result[1].getAttribute("name").toString().slice(6));
     thePie.eatSliceOfPie(result[0]);
     deleteChoice(number);
 }
@@ -208,4 +244,35 @@ function endPlay(choices, result) {
     choices[0][0] === result[0] ? choices.shift() : choices.pop();
     let newResult = choices[0];
     showPickedName(newResult);
+    const winner = RESULTS.querySelector(".result>p").innerHTML;
+    const endMessage = `<p id="winner">End of game</p>`;
+    document
+        .querySelector(".listButtons")
+        .insertAdjacentHTML("afterend", endMessage);
+    console.log("...ended");
+}
+
+function colorSplitValues(pickedColor) {
+    const pattern = /\d{1,3}/;
+    const colorElements = pickedColor.split(",");
+    let colorLightValue = parseInt(pattern.exec(colorElements[2])[0]);
+    let colorSaturationValue = parseInt(pattern.exec(colorElements[1])[0]);
+    let colorHueValue = parseInt(pattern.exec(colorElements[0])[0]);
+    return [colorHueValue, colorSaturationValue, colorLightValue];
+}
+
+function compareCloseColors(color1, color2) {
+    const color1Arr = colorSplitValues(color1);
+    const color2Arr = colorSplitValues(color2);
+    let comparisonResult = color1Arr.map((ele, index) => {
+        return ele == color2Arr[index] ||
+            ele == color2Arr[index] + 1 ||
+            ele == color2Arr[index] - 1
+            ? true
+            : false;
+    });
+    const result = comparisonResult.every((el) => el === true)
+        ? color2
+        : undefined;
+    return result;
 }

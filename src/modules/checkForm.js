@@ -38,9 +38,8 @@ export function showErrors(inputList) {
         if (ele.name === "choice1") {
             ele.insertAdjacentElement("afterend", message);
         } else {
-            let goodId = `minus${ele.name.split("").pop()}`;
+            let goodId = `minus${ele.name.slice(6)}`;
             let minus = document.getElementById(goodId);
-            console.log(minus);
             minus.insertAdjacentElement("afterend", message);
         }
     });

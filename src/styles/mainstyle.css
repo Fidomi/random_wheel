@@ -30,12 +30,12 @@ a {
 button,
 button:hover,
 button:focus,
-button:active {
+button:active,
+button:focus-visible,
+button:focus-within {
     background: none;
     color: inherit;
     border: none;
-    padding: 0;
-    font: inherit;
     cursor: pointer;
     outline: inherit;
 }
@@ -86,8 +86,7 @@ main {
 
 div[id*="choice"] {
     display: flex;
-    flex-direction: row;
-    flex-flow: wrap;
+    flex-flow: row wrap;
     margin-bottom: 0.1rem;
     width: 100%;
     /* margin: 0 auto; */
@@ -96,101 +95,178 @@ div[id*="choice"] {
 input {
     background: none;
     outline: none;
-    font: 1.4rem/1 "Abel", sans-serif;
+    font: 1rem/0.8 "Abel", sans-serif;
     color: #333;
     width: 90%;
     box-sizing: border-box;
     letter-spacing: 1px;
     border: 0;
     border-bottom: 1px solid white;
-    padding: 0.5rem 0.75;
+    padding: 0.05rem 1rem;
     border-radius: 0.25rem;
 }
 
 span[id*="minus"],
 #plus {
-    font-size: 1.4rem;
+    font-size: 1rem;
     font-weight: 900;
     font-family: "Alfa Slab One", cursive;
     margin: 0.1rem auto;
 }
 
 #addInputs {
+    width: 100%;
     margin: 0 auto;
 }
 
 #addInputs > p {
     width: 90%;
     margin: 0.2rem 0;
-    font: 1.2rem/1.4 "Abel", sans-serif;
+    font: 1rem/1 "Abel", sans-serif;
 }
 
-.blackButton,
-.blackButton:focus,
-.blackButton:active {
+.blackButton {
     background-color: black;
     color: white;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     text-align: center;
     border-radius: 2rem;
     margin: 0 auto;
     min-width: 6rem;
-    padding: 0.5rem;
-    margin-top: 1rem;
+    padding: 0.2rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.2rem;
+}
+
+.blackButton:focus,
+.blackButton:hover {
+    background-color: none;
+    color: black;
+    border: black 1px solid;
 }
 
 .listButtons {
+    width: 90%;
     justify-content: center;
 }
 
 #results {
     display: flex;
-    flex-direction: row;
-    flex-flow: wrap;
+    flex-flow: column wrap;
+    /* min-height: 20vh; */
     max-height: 25vh;
     justify-content: center;
     width: 90%;
-    margin: 0 auto;
-    margin-top: 1rem;
+    margin: 1rem auto;
     border-top: solid black 2px;
-    padding-top: 1rem;
-}
-
-#results_column {
-    display: flex;
-    flex-direction: column;
-    flex-flow: wrap;
-    max-height: 100%;
-    width: 100%;
+    padding: 1rem 0rem;
 }
 
 .result {
     display: flex;
-    flex-direction: row;
-    flex-flow: nowrap;
-    flex-basis: 100%;
-    max-width: 100%;
-    min-width: 50%;
+    flex-flow: row nowrap;
+    flex: 0 1 auto;
+    min-width: 45%;
     margin-bottom: 0.2rem;
 }
 .result > h3 {
+    font: 1.1em/1.1em "Voltaire", sans-serif;
     width: 2.2rem;
     padding: 0.2rem;
     margin: 0;
-    background-color: black;
     color: white;
     border-radius: 0.2rem;
     text-align: center;
 }
 .result > p {
-    font: 1.3em/1.2em "Voltaire", sans-serif;
+    font: 1em/1em "Voltaire", sans-serif;
     padding: 0.2rem;
     margin: 0;
     flex-grow: 1;
 }
 
-p[message="error"] {
+p[message="error"],
+#alert {
     width: 100%;
     margin: 0.2rem auto;
     color: red;
+}
+
+#winner {
+    width: 100%;
+    margin: 0 auto;
+    font-size: 1.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+@media (min-width: 767px) {
+    header > h1 {
+        margin-bottom: 2rem;
+        font-size: 3rem;
+    }
+    main {
+        flex-flow: row wrap;
+        justify-content: space-between;
+    }
+    #wheelContainer {
+        flex-basis: 55%;
+        align-self: center;
+    }
+    #names {
+        flex-basis: 40%;
+        height: 35vh;
+        justify-content: start;
+    }
+    input {
+        font: 1.3rem/1.2 "Abel", sans-serif;
+    }
+    div[id*="choice"],
+    .listButtons,
+    #addInputs {
+        width: 70%;
+        margin: 0 auto;
+    }
+    #addInputs {
+        flex-grow: 1;
+    }
+    #addInputs > button {
+        align-self: start;
+    }
+    .listButtons {
+        justify-self: flex-end;
+    }
+    .blackButton {
+        font-size: 1rem;
+        text-align: center;
+        border-radius: 2rem;
+        margin: 0 auto;
+        min-width: 6rem;
+        padding: 0.5rem;
+        margin-top: 1rem;
+        margin-bottom: 0.2rem;
+    }
+
+    #results {
+        max-height: 25vh;
+        flex-basis: 80%;
+        padding: 2rem 6rem;
+    }
+    .result > h3 {
+        font: 1.2rem/1.2 "Voltaire", sans-serif;
+    }
+    .result > p {
+        font: bold 1.2rem/1.2 "Abel", sans-serif;
+    }
+}
+
+@media (min-width: 1460px) {
+    #results {
+        width: 90%;
+        max-width: 960px;
+        padding-left: 4rem;
+        padding-right: 4rem;
+    }
 }
