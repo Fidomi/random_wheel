@@ -154,7 +154,7 @@ span[id*="minus"],
     display: flex;
     flex-flow: column wrap;
     /* min-height: 20vh; */
-    max-height: 25vh;
+    max-height: 40vh;
     justify-content: center;
     width: 90%;
     margin: 1rem auto;
@@ -202,6 +202,12 @@ p[message="error"],
     text-align: center;
 }
 
+@media (min-width: 370px) {
+    #results {
+        max-height: 25vh;
+    }
+}
+
 @media (min-width: 767px) {
     header > h1 {
         margin-bottom: 2rem;
@@ -219,6 +225,7 @@ p[message="error"],
         flex-basis: 40%;
         height: 35vh;
         justify-content: start;
+        margin-top: 2rem;
     }
     input {
         font: 1.3rem/1.2 "Abel", sans-serif;
